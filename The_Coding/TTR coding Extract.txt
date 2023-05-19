@@ -1,3 +1,19 @@
 cd ./ContentPack_Maker
-
-multify.exe -x -f ContentPack.mf phase_3 phase_3.5 phase_4 phase_5 phase_5.5 phase_6 phase_7 phase_8 phase_9 phase_10 phase_11 phase_12 phase_13 phase_14 winter_music winter_decorations winter_snow pack.png info.ini
+multify.exe -x -f ContentPack.mf
+multify.exe -x -f phase_3.mf
+multify.exe -x -f phase_3.5.mf
+multify.exe -x -f phase_4.mf
+multify.exe -x -f phase_5.mf
+multify.exe -x -f phase_5.5.mf
+multify.exe -x -f phase_6.mf
+multify.exe -x -f phase_7.mf
+multify.exe -x -f phase_8.mf
+multify.exe -x -f phase_9.mf
+multify.exe -x -f phase_10.mf
+multify.exe -x -f phase_11.mf
+multify.exe -x -f phase_12.mf
+multify.exe -x -f phase_13.mf
+multify.exe -x -f phase_14.mf
+multify.exe -x -f winter_music.mf
+multify.exe -x -f winter_decorations.mf
+multify.exe -x -f winter_snow.mf
