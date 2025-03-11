@@ -1,29 +1,31 @@
-Required: Panda3D with "multify.exe" from: https://www.panda3d.org/download/ or https://github.com/panda3d (Panda3D-1.11.0 with Python is recommended for Toontown.)
+# Toontown Content Packs Creator
 
-How to use:
+Toontown Content Packs Creator is used for Extracting / Intracting multiple files and/or files at once as well as converting .mp3 files to .ogg and converting .png to .jpeg + .rgb and .jpeg + .rgb to .png.
 
-Extract > Put the ".mf" files in the "Pack_Test" folder
-Multi: (For multiple .mf files. For extracting multiple content packs at once.)
-Use the Extract_Multi.bat file in the "Resources" folder
-(This will create a folder with the same name as the .mf file in the Resources folder.)
-Single: (For single phase file within a .mf file or 1 Content Pack file. For extracting TTR / TTCC files.)
-Use the Extract_Single.bat file in the "Resources" folder
+*Converting .png / jpeg + rgb code is from "TT Alpha Combiner" by P3DCAT https://github.com/P3DCAT/TTAlphaCombiner *
+*More info about TT Alpha Combiner in "TT-AlphaCombiner-README"*
 
+*Intracting and Extracting multifiles requires Panda3D's "Multify" command to use. https://www.panda3d.org/download/ *
 
-Intract > Put the phase folders in the "Pack_Test" folder
-Use the Intract.bat file in the "Resources" folder
+## Extract multfiles
+- Put the multifile in "Content-Pack-Extract"
+Use "Multifile Extract.bat"
 
-Extract / Intract should be done when cmd is completed in Pack_Test Folder
+## "Intract" multfiles
+- Put the phase file folders and other files in "Content-Pack-Intract"
+Use "Multifile Intract.bat"
 
-Logs:
+## Converting MP3 to OGG
+- Put MP3 files in "MP3-Files"
+Use "MP3 to OGG"
+Audio files will be in "OGG-Files"
 
-Verison 3.1.0:
-Removed "Extract.bat"
-Added "Extract_Single.bat" and "Extract_Multi.bat"
-Extract_Multi supports multiple .mf files!
-(Extract_Multi will put the phase files into it's own folder.)
-Extract_Single supports single .mf files!
-Added "Delete.DeleteMe" file (To keep "Pack_Test" in Github.)
-
-Verison 3.0:
-Made the Intract.bat and Extract.bat support all multifiles!
+*Converting to / from PNG and JPEG + RGB requires Panda3D to work*
+## Converting PNG to JPEG + RGB
+*You will need to manually remove the .png files.*
+- Put PNG files in "Image-Files"
+- Use "PNG to JPEG and RGB"
+## Converting JPEG + RGB to PNG
+*JPEG + RGB will remove itself.*
+- Put JPEG + RGB files in "Image-Files"
+- Use "JPEG and RGB to PNG"

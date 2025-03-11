@@ -1,0 +1,107 @@
+# TT Alpha Combiner
+
+TT Alpha Combiner is used to convert Panda3D BAM models to use PNG textures instead of JPG + RGB textures.
+
+This tool is capable of rewriting BAM files while preserving all node data.
+
+It can either rewrite all BAM files in-place or create new copies of each BAM file.
+By default, `_png` is appended to the end of each BAM filename.
+
+TT Alpha Combiner can also be used to convert relative texture paths to absolute paths. For example, it can replace `../../maps/test_texture.jpg` with `phase_3/maps/test_texture.png`. Simply set the `--convert-relative` flag together with the `--phase-files` location!
+
+TT Alpha Combiner can also convert old-style content packs to the new PNG system, using the `--convert-pack` flag.
+
+* Use the `--jpg` flag to rewrite BAM files using regular JPG textures without RGB files.
+* Use the `--rgb` flag to rewrite BAM files using JPG+RGB combo textures.
+* Use the `--overwrite` flag to overwrite all BAM files in-place.
+* Using the `--convert-images` flag, Alpha Combiner will convert all JPG and RGB files associated with your models to PNG automatically.
+* Use the `--wipe-jpg` flag if you want all converted JPG files to be deleted after conversion. Requires the `--convert-images` flag.
+* Use the `--early-exit` flag to halt execution of the program if any textures are missing.
+* The `--convert-images` and `--convert-relative` flag requires you to set the phase files location using `--phase-files`. Example: `--phase-files C:/Data/Toontown/resources`, `resources` being the folder that stores `phase_3`, `phase_4`, etc.
+* Use the `--convert-relative` flag in order to convert relative file paths such as `../../maps/test_texture.jpg` to `phase_3/maps/test_texture.jpg`.
+* Use the `--convert-pack` flag to convert old JPG content packs to new PNG content packs, together with the `--phase-files` flag to find RGB files.
+* Use the `--convert-to-jpg` flag to convert all PNG images in a folder to JPG+RGB combo textures.
+
+Wildcards can be used to specify the models to rewrite, but are not required.
+
+## Installation
+
+Your Python version must be at least 3.6, but newer versions are appreciated.
+
+Make sure you've got Panda3D installed. The newer, the better.
+
+You must clone the repository, and install all dependencies from `requirements.txt` afterwards.
+
+```
+git clone https://github.com/P3DCAT/TTAlphaCombiner
+python -m pip install --upgrade -r requirements.txt
+cd TTAlphaCombiner
+```
+
+## Running
+
+```
+usage: python -m alphacombiner.Main [-h] [--jpg] [--rgb] [--overwrite] [--convert-images] [--wipe-jpg] [--early-exit] [--convert-relative]
+               [--phase-files PHASE_FILES] [--convert-pack] [--convert-to-jpg]
+               filenames [filenames ...]
+
+This script can be used to convert Panda3D bam models using JPG+RGB textures to use PNG textures.
+
+positional arguments:
+  filenames             The raw input file(s). Accepts * as wildcard.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --jpg, -j             Convert regular JPG textures to PNG textures.
+  --rgb, -r             Convert JPG+RGB texture combos to PNG textures.
+  --overwrite, -o       Overwrite models instead of appending _png to the filename.
+  --convert-images, -c  Convert all modified images to PNG in-place.
+  --wipe-jpg, -w        Remove all JPG+RGB files that have been converted to PNG.
+  --early-exit, -e      Exit immediately if an image could not be converted properly.
+  --convert-relative, -l
+                        Convert all relative paths to absolute paths in models.
+  --phase-files PHASE_FILES, -p PHASE_FILES
+                        The location of your phase files. Required for --convert-images.
+  --convert-pack, -b    Convert all images inside this directory.
+  --convert-to-jpg, -z  Convert all PNG images to JPG+RGB in-place.
+```
+
+For example, to rewrite all models using JPG+RGB textures in `phase_6\modules`, while keeping the original copies of the models, and also converting all JPG+RGB textures to PNG:
+
+```
+python -m alphacombiner.Main --jpg --rgb --convert-images --phase-files C:\Data\Toontown\resources C:\Data\Toontown\resources\phase_6\modules\*.bam
+```
+
+To simply rewrite all models in `phase_6\modules`, converting all relative paths to absolute paths, without converting any JPG or RGB textures:
+
+```
+python -m alphacombiner.Main --convert-relative --phase-files C:\Data\Toontown\resources C:\Data\Toontown\resources\phase_6\modules\*.bam
+```
+
+To rewrite an old content pack at `C:\Data\Packs\myamazingpack`, with the old JPG-based phase files at `C:\Data\Toontown\TTOPhaseFiles`, wiping the JPG files afterwards (do back them up first!):
+
+```
+python -m alphacombiner.Main --wipe-jpg --phase-files C:\Data\Toontown\TTOPhaseFiles --convert-pack C:\Data\Packs\myamazingpack
+```
+
+To convert all PNG files at `C:\Data\Toontown\pngtextures`, wiping the PNG files afterwards (do back them up first!):
+
+```
+python -m alphacombiner.Main --wipe-jpg --convert-to-jpg C:\Data\Toontown\pngtextures
+```
+
+## Caveats
+
+You might already have some PNG files that are different than the JPG+RGB combo textures. Such an example might be `toontown-logo.jpg` (old Toontown logo) and `toontown-logo.png` (your project's logo). The PNG file will be overwritten when using `--convert-images`. Beware.
+
+Some alpha RGB channels are larger than the source JPG file. Alpha Combiner will complain. Those files have to be fixed manually. (Only when using `--convert-images`)
+
+Some RGB files used by fonts have both grayscale and transparency channels. Pillow can't open these and these have to be converted manually. (Only when using `--convert-images`)
+
+Errors might occur when using `--convert-images`. To quit the program as soon as an error is encountered, use the `--early-exit` flag. Otherwise, look for lines marked as `ERROR:` in the output after running the program to fix these textures manually.
+
+## Known Bugs
+
+Some RGB files, mostly those used for fonts, are grayscale but with transparency enabled. For example: `phase_3/maps/phase_3_palette_2tmlc_1.rgb` used by `phase_3/models/fonts/MickeyFont.bam`
+
+Those RGB files cannot be read by Pillow, and, as such, cannot be converted to PNG textures by the `--convert-images` flag. For now, convert those special grayscale transparent RGB images manually using GIMP.
